@@ -18,6 +18,7 @@ class Omnisend
     private $verifySSL = true;
     private $lastError = array();
     private $useCurl = true;
+    private $curlOptions = array();
     private $version = "1.2";
 
     public function __construct($apiKey, $options = array())
@@ -43,6 +44,10 @@ class Omnisend
 
             if (array_key_exists("timeout", $options) && is_int($options['timeout'])) {
                 $this->timeout = $options['timeout'];
+            }
+
+            if (array_key_exists("curlOptions", $options) && is_array($options['curlOptions'])) {
+                $this->curlOptions = $options['curlOptions'];
             }
         }
     }
@@ -225,6 +230,11 @@ class Omnisend
             curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->verifySSL);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+            if (!empty($this->curlOptions)) {
+                curl_setopt_array($ch, $this->curlOptions);
+            }
+
             switch ($method) {
                 case "POST":
                     curl_setopt($ch, CURLOPT_POST, true);
