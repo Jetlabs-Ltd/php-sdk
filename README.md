@@ -33,7 +33,7 @@ require_once("vendor/autoload.php");
 Download the `Omnisend.php` file and include it manually:
 
 ```php
-require_once('Omnisend.php'); 
+require_once('Omnisend.php');
 ```
 **Note:** check and correct if needed "Omnisend.php" path.
 
@@ -43,7 +43,8 @@ Available methods & options
 ```php
 $options = array(
     'timeout' => 30,
-    'verifySSL' => false
+    'verifySSL' => false,
+    'curlOptions' => array()
 );
 $omnisend = new Omnisend('API-KEY', $options);
 ```
@@ -54,6 +55,7 @@ Available options:
 |---|---|---|
 |timeout|int|Timeout. If not passed - will be calculated depending on PHP max_execution_time
 |verifySSL|bool|Default - true. Enable (true) or disable (false) SSL verification.
+|curlOptions|array|array of CURLOPT_* of options passed to `curl_setopt_array()`
 
 **Available methods**
 
@@ -131,10 +133,10 @@ $omnisend = new Omnisend('your-api-key');
 $contacts = $omnisend->post(
   'contacts',
    array(
-       "email" => "vanessa.kensington@example.com", 
-       "firstName" => "Vanessa", 
-       "lastName" => "Kensington", 
-       "status" => "subscribed", 
+       "email" => "vanessa.kensington@example.com",
+       "firstName" => "Vanessa",
+       "lastName" => "Kensington",
+       "status" => "subscribed",
        "statusDate" => "2018-12-11T10:29:43+00:00"
     )
 );
@@ -146,7 +148,7 @@ if ($contacts) {
     //request was successful
 
     //print response
-    print_r($contacts); 
+    print_r($contacts);
     //get contactID from response
     $contactID = $contacts['contactID'];
 } else {
